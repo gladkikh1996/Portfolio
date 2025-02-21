@@ -18,7 +18,7 @@ jobs:
 
       - name: Check host availability
         run: |
-          HOST="lenta.ru"  # Замените на ваш хост
+          HOST="example.com"  # Замените на ваш хост
           if ping -c 1 $HOST &> /dev/null; then
             echo "$HOST is reachable"
           else
@@ -36,3 +36,15 @@ jobs:
             echo "$HOST returned status code $RESPONSE"
             exit 1
           fi
+          - name: Debug network
+            run: |
+              echo "Current IP:"
+              curl ifconfig.me
+              echo "Checking access to another host..."
+              HOST="example.com"  # Замените на другой хост
+              if ping -c 1 $HOST &> /dev/null; then
+                echo "$HOST is reachable"
+              else
+                echo "$HOST is not reachable"
+                exit 1
+              fi
