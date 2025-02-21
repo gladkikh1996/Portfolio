@@ -18,7 +18,7 @@ jobs:
 
       - name: Check host availability
         run: |
-          HOST="example.com"  # Замените на ваш хост
+          HOST="lenta.ru"  # Замените на ваш хост
           if ping -c 1 $HOST &> /dev/null; then
             echo "$HOST is reachable"
           else
