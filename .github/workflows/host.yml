@@ -1,4 +1,4 @@
-name: Check Host
+name: Check Host Availability
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  host:
+  check-host:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Check HTTP response
         run: |
-          HOST="https://lenta.ru/"  # Замените на ваш хост
+          HOST="https://lenta.ru"  # Замените на ваш хост
           RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null $HOST)
           if [ "$RESPONSE" -eq 200 ]; then
             echo "$HOST is up and running"
@@ -36,15 +36,16 @@ jobs:
             echo "$HOST returned status code $RESPONSE"
             exit 1
           fi
-          - name: Debug network
-            run: |
-              echo "Current IP:"
-              curl ifconfig.me
-              echo "Checking access to another host..."
-              HOST="example.com"  # Замените на другой хост
-              if ping -c 1 $HOST &> /dev/null; then
-                echo "$HOST is reachable"
-              else
-                echo "$HOST is not reachable"
-                exit 1
-              fi
+
+      - name: Debug network
+        run: |
+          echo "Current IP:"
+          curl ifconfig.me
+          echo "Checking access to another host..."
+          ANOTHER_HOST="example.com"  # Замените на другой хост
+          if ping -c 1 $ANOTHER_HOST &> /dev/null; then
+            echo "$ANOTHER_HOST is reachable"
+          else
+            echo "$ANOTHER_HOST is not reachable"
+            exit 1
+          fi
