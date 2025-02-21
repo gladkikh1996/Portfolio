@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  check-host:
+  host:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Check HTTP response
         run: |
-          HOST="http://example.com"  # Замените на ваш хост
+          HOST="https://lenta.ru/"  # Замените на ваш хост
           RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null $HOST)
           if [ "$RESPONSE" -eq 200 ]; then
             echo "$HOST is up and running"
