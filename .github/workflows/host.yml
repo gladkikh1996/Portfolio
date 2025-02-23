@@ -1,38 +1,40 @@
-name: Check Host Availability
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  - name: Check host availability
+    run: |
+      HOST="lenta.ru"  # Замените на ваш хост
+      if ping -c 1 $HOST &> /dev/null; then
+        echo "$HOST is reachable"
+      else
+        echo "$HOST is not reachable"
+        exit 1
+      fi
 
-jobs:
-  check-host:
-    runs-on: ubuntu-latest
+  - name: Check HTTP response
+    run: |
+      HOST="https://lenta.ru"  # Замените на ваш хост
+      RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null $HOST)
+      if [ "$RESPONSE" -eq 200 ]; then
+        echo "$HOST is up and running"
+      else
+        echo "$HOST returned status code $RESPONSE"
+        exit 1
+      fi
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  - name: Check Host
 
-      - name: Check host availability
-        run: |
-          HOST="lenta.ru"  # Замените на ваш хост
-          if ping -c 1 $HOST &> /dev/null; then
-            echo "$HOST is reachable"
-          else
-            echo "$HOST is not reachable"
-            exit 1
-          fi
+  - on: [ push ]
 
-      - name: Check HTTP response
-        run: |
-          HOST="https://lenta.ru"  # Замените на ваш хост
-          RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null $HOST)
-          if [ "$RESPONSE" -eq 200 ]; then
-            echo "$HOST is up and running"
-          else
-            echo "$HOST returned status code $RESPONSE"
-            exit 1
-          fi
+  - jobs:
+  - check-host:
+  - runs-on: ubuntu-latest
+  - steps:
+  - name: Checkout code
+  - uses: actions/checkout@v2
+
+  - name: Check host reachability
+  - run: |
+  - HOST="http://lenta.ru"
+  - curl -L $HOST
