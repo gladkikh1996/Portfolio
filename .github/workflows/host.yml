@@ -36,19 +36,3 @@ jobs:
             echo "$HOST returned status code $RESPONSE"
             exit 1
           fi
-
-      - name: Check Host
-
-      - on: [ push ]
-
-      - jobs:
-      - check-host:
-      - runs-on: ubuntu-latest
-      - steps:
-      - name: Checkout code
-      - uses: actions/checkout@v2
-
-      - name: Check host reachability
-      - run: |
-      - HOST="http://lenta.ru"
-      - curl -L $HOST
