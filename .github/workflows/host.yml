@@ -37,15 +37,18 @@ jobs:
             exit 1
           fi
 
-      - name: Debug network
-        run: |
-          echo "Current IP:"
-          curl ifconfig.me
-          echo "Checking access to another host..."
-          ANOTHER_HOST="example.com"  # Замените на другой хост
-          if ping -c 1 $ANOTHER_HOST &> /dev/null; then
-            echo "$ANOTHER_HOST is reachable"
-          else
-            echo "$ANOTHER_HOST is not reachable"
-            exit 1
-          fi
+      - name: Check Host
+
+      - on: [ push ]
+
+      - jobs:
+      - check-host:
+      - runs-on: ubuntu-latest
+      - steps:
+      - name: Checkout code
+      - uses: actions/checkout@v2
+
+      - name: Check host reachability
+      - run: |
+      - HOST="http://lenta.ru"
+      - curl -L $HOST
